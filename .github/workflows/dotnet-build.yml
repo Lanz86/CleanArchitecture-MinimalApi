@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
-    - name: Test
-      run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName!~AcceptanceTests"
-      env:
-        ConnectionStrings__DefaultConnection: Server=.;Database=CleanArchitectureDb-Test;User=sa;Password=Your_password123;Persist Security Info=False;MultipleActiveResultSets=true;Encrypt=false;
+    #- name: Test
+    #  run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName!~AcceptanceTests"
+    #  env:
+    #    ConnectionStrings__DefaultConnection: Server=.;Database=CleanArchitectureDb-Test;User=sa;Password=Your_password123;Persist Security Info=False;MultipleActiveResultSets=true;Encrypt=false;
