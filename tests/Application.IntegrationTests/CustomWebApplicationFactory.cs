@@ -35,8 +35,11 @@ internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services
                 .Remove<DbContextOptions<ApplicationDbContext>>()
                 .AddDbContext<ApplicationDbContext>((sp, options) =>
+                {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-                        builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                        builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+                    options.UseOpenIddict();
+                });
         });
     }
 }
