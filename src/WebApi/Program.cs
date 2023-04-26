@@ -1,5 +1,8 @@
 using CleanArchitecture.Infrastructure.Persistence;
 using CleanArchitecture.WebApi;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using NSwag.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +38,14 @@ app.UseStaticFiles();
 
 app.UseSwaggerUi3(settings =>
 {
+    settings.OAuth2Client = new OAuth2ClientSettings
+    {
+        ClientId = "CleanArchitecture-WebApi",
+        AppName = "CleanArchitecture-WebApi",
+        ClientSecret = "CleanArchitecture-WebApi",
+        UsePkceWithAuthorizationCodeGrant = true,
+
+    };
     settings.Path = "/api";
     settings.DocumentPath = "/api/specification.json";
 });
@@ -44,10 +55,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+app.MapControllers();
 app.MapRazorPages();
+app.MapEndpoints();
+
 
 app.MapFallbackToFile("index.html");
-
-app.MapEndpoints();
 
 app.Run();

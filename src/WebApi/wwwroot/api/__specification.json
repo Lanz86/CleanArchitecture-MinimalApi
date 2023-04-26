@@ -540,23 +540,17 @@
       }
     },
     "securitySchemes": {
-      "OAuth2": {
+      "Bearer": {
         "type": "oauth2",
         "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://localhost:5001/connect/authorize",
-            "tokenUrl": "https://localhost:5001/connect/token",
-            "scopes": {
-              "api": "api"
-            }
-          }
+          "authorizationCode": {}
         }
       }
     }
   },
   "security": [
     {
-      "OAuth2": []
+      "Bearer": []
     }
   ]
 }
