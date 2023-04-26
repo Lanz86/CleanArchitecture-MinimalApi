@@ -2,9 +2,21 @@
 
 namespace CleanArchitecture.Domain.Common;
 
-public abstract class BaseEntity
+public interface IBaseEntity
 {
-    public int Id { get; set; }
+    [NotMapped] 
+    IReadOnlyCollection<BaseEvent> DomainEvents { get; }
+
+    void AddDomainEvent(BaseEvent domainEvent);
+
+    void RemoveDomainEvent(BaseEvent domainEvent);
+
+    void ClearDomainEvents();
+}
+
+public abstract class BaseEntity<TKey> : IBaseEntity where TKey : struct
+{
+    public TKey Id { get; set; }
 
     private readonly List<BaseEvent> _domainEvents = new();
 
