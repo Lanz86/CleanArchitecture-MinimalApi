@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Azure.Core;
-using CleanArchitecture.WebApi.Authorization;
+using TypeTest.WebApi.WebApi.Authorization;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -9,7 +9,7 @@ using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using OpenIddict.Validation.AspNetCore;
 
-namespace CleanArchitecture.WebApi.Connect;
+namespace TypeTest.WebApi.WebApi.Connect;
 
 public class ConnectAuthorize : AbstractEndpoint
 {

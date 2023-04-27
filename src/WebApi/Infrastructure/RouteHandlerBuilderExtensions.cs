@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.WebApi.Filters;
+﻿using TypeTest.WebApi.WebApi.Filters;
 
-namespace CleanArchitecture.WebApi.Infrastructure;
+namespace TypeTest.WebApi.WebApi.Infrastructure;
 
 public static class RouteHandlerBuilderExtensions
 {

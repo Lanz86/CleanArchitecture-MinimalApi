@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.Common.Exceptions;
+﻿namespace TypeTest.WebApi.Application.Common.Exceptions;
 
 public class NotFoundException : Exception
 {

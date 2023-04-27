@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Application.Common.Models;
+﻿using TypeTest.WebApi.Application.Common.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace CleanArchitecture.Infrastructure.Identity;
+namespace TypeTest.WebApi.Infrastructure.Identity;
 
 public static class IdentityResultExtensions
 {

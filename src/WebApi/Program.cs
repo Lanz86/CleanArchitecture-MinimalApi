@@ -1,5 +1,5 @@
-using CleanArchitecture.Infrastructure.Persistence;
-using CleanArchitecture.WebApi;
+using TypeTest.WebApi.Infrastructure.Persistence;
+using TypeTest.WebApi.WebApi;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NSwag.AspNetCore;

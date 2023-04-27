@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.Application.Common.Models;
+﻿using TypeTest.WebApi.Application.Common.Models;
 
-namespace CleanArchitecture.Application.Common.Interfaces;
+namespace TypeTest.WebApi.Application.Common.Interfaces;
 
 public interface IIdentityService
 {

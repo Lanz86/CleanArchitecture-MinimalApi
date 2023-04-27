@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "CleanArchitecture.WebApi": {
+    "TypeTest.WebApi.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "https://localhost:5001/api",

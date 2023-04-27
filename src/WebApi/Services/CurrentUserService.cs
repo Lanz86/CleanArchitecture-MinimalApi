@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 
-using CleanArchitecture.Application.Common.Interfaces;
+using TypeTest.WebApi.Application.Common.Interfaces;
 
-namespace CleanArchitecture.WebApi.Services;
+namespace TypeTest.WebApi.WebApi.Services;
 
 public class CurrentUserService : ICurrentUserService
 {

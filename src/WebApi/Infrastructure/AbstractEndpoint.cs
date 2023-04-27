@@ -1,4 +1,4 @@
-namespace CleanArchitecture.WebApi.Infrastructure;
+namespace TypeTest.WebApi.WebApi.Infrastructure;
 
 public abstract class AbstractEndpoint : IEndpoint
 {

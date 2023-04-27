@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.Common.Interfaces;
+﻿namespace TypeTest.WebApi.Application.Common.Interfaces;
 
 public interface IDateTime
 {
