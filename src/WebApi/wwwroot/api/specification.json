@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/WeatherForecasts": {
+    "/api/weatherforecasts": {
       "get": {
         "tags": [
           "WeatherForecasts"
@@ -29,7 +29,7 @@
         }
       }
     },
-    "/api/TodoLists": {
+    "/api/todolists": {
       "post": {
         "tags": [
           "TodoLists"
@@ -81,7 +81,7 @@
         }
       }
     },
-    "/api/TodoLists/{id}": {
+    "/api/todolists/{id}": {
       "delete": {
         "tags": [
           "TodoLists"
@@ -142,7 +142,7 @@
         }
       }
     },
-    "/api/TodoLists/Export/{id}": {
+    "/api/todolists/export/{id}": {
       "get": {
         "tags": [
           "TodoLists"
@@ -167,7 +167,7 @@
         }
       }
     },
-    "/api/TodoItems": {
+    "/api/todoitems": {
       "post": {
         "tags": [
           "TodoItems"
@@ -201,7 +201,7 @@
         }
       }
     },
-    "/api/TodoItems/{id}": {
+    "/api/todoitems/{id}": {
       "delete": {
         "tags": [
           "TodoItems"
@@ -262,7 +262,7 @@
         }
       }
     },
-    "/api/TodoItems/UpdateDetail/{id}": {
+    "/api/todoitems/updatedetail/{id}": {
       "put": {
         "tags": [
           "TodoItems"
@@ -300,9 +300,9 @@
         }
       }
     },
-    "/connect/token": {
+    "/connect/authorize": {
       "get": {
-        "operationId": "GetConnectToken",
+        "operationId": "Connect_ConnectAuthorizeGET",
         "responses": {
           "200": {
             "description": ""
@@ -310,7 +310,7 @@
         }
       },
       "post": {
-        "operationId": "PostConnectToken",
+        "operationId": "Connect_ConnectAuthorizePOST",
         "responses": {
           "200": {
             "description": ""
@@ -318,9 +318,9 @@
         }
       }
     },
-    "/connect/authorize": {
+    "/connect/token": {
       "get": {
-        "operationId": "GetConnectAuthorize",
+        "operationId": "Connect_ConnectTokenGET",
         "responses": {
           "200": {
             "description": ""
@@ -328,7 +328,7 @@
         }
       },
       "post": {
-        "operationId": "PostConnectAuthorize",
+        "operationId": "Connect_ConnectTokenPOST",
         "responses": {
           "200": {
             "description": ""

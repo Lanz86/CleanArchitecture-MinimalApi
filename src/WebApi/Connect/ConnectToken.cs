@@ -6,13 +6,15 @@ using Microsoft.AspNetCore.Builder;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 
-namespace CleanArchitecture.WebApi.Authorization;
+namespace CleanArchitecture.WebApi.Connect;
 
 public class ConnectToken : AbstractEndpoint
 {
+    public override string BaseRoute => $"/{Group}/";
     public override void Map(WebApplication app)
     {
-        app.MapMethods("/connect/token", new [] { "GET", "POST" }, connect_Token);
+        MapMethods(app, "token", new[] { "GET", "POST" }, connect_Token).WithName($"{Group}_{Name}")
+            .WithGroupName(Group); ;
     }
 
     private async Task<IResult> connect_Token(HttpContext context, IOpenIddictScopeManager manager)

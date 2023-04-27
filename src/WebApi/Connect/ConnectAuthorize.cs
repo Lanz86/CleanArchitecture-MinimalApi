@@ -1,23 +1,22 @@
 ﻿using System.Security.Claims;
-using Azure.Core;
-using CleanArchitecture.WebApi.Authorization;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using OpenIddict.Validation.AspNetCore;
 
 namespace CleanArchitecture.WebApi.Connect;
 
 public class ConnectAuthorize : AbstractEndpoint
 {
+    public override string BaseRoute => $"/{Group}/";
+
     public override void Map(WebApplication app)
     {
-        app.MapMethods("/connect/authorize", new[] { "GET", "POST" }, connect_Authorize);
-        //MapGet(app, "~/connect/authorize", connect_Authorize);
-        //MapPost(app, "~/connect/authorize", connect_Authorize);
+
+        MapMethods(app, "authorize", new[] { "GET", "POST" }, connect_Authorize).WithName($"{Group}_{Name}")
+            .WithGroupName(Group);
     }
 
     private async Task<IResult> connect_Authorize(HttpContext context, HttpRequest httpRequest,

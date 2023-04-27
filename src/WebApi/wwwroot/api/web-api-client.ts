@@ -33,7 +33,7 @@ export class WeatherForecastsClient implements IWeatherForecastsClient {
     }
 
     getWeatherForecasts(): Observable<WeatherForecast[]> {
-        let url_ = this.baseUrl + "/api/WeatherForecasts";
+        let url_ = this.baseUrl + "/api/weatherforecasts";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -110,7 +110,7 @@ export class TodoListsClient implements ITodoListsClient {
     }
 
     createTodoList(command: CreateTodoListCommand): Observable<number> {
-        let url_ = this.baseUrl + "/api/TodoLists";
+        let url_ = this.baseUrl + "/api/todolists";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(command);
@@ -163,7 +163,7 @@ export class TodoListsClient implements ITodoListsClient {
     }
 
     getTodoLists(): Observable<TodosVm> {
-        let url_ = this.baseUrl + "/api/TodoLists";
+        let url_ = this.baseUrl + "/api/todolists";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -211,7 +211,7 @@ export class TodoListsClient implements ITodoListsClient {
     }
 
     deleteTodoList(id: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/TodoLists/{id}";
+        let url_ = this.baseUrl + "/api/todolists/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -258,7 +258,7 @@ export class TodoListsClient implements ITodoListsClient {
     }
 
     updateTodoList(id: number, command: UpdateTodoListCommand): Observable<void> {
-        let url_ = this.baseUrl + "/api/TodoLists/{id}";
+        let url_ = this.baseUrl + "/api/todolists/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -309,7 +309,7 @@ export class TodoListsClient implements ITodoListsClient {
     }
 
     exportTodos(id: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/TodoLists/Export/{id}";
+        let url_ = this.baseUrl + "/api/todolists/export/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -377,7 +377,7 @@ export class TodoItemsClient implements ITodoItemsClient {
     }
 
     createTodoItem(command: CreateTodoItemCommand): Observable<number> {
-        let url_ = this.baseUrl + "/api/TodoItems";
+        let url_ = this.baseUrl + "/api/todoitems";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(command);
@@ -430,7 +430,7 @@ export class TodoItemsClient implements ITodoItemsClient {
     }
 
     deleteTodoItem(id: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/TodoItems/{id}";
+        let url_ = this.baseUrl + "/api/todoitems/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -477,7 +477,7 @@ export class TodoItemsClient implements ITodoItemsClient {
     }
 
     updateTodoItem(id: number, command: UpdateTodoItemCommand): Observable<void> {
-        let url_ = this.baseUrl + "/api/TodoItems/{id}";
+        let url_ = this.baseUrl + "/api/todoitems/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -528,7 +528,7 @@ export class TodoItemsClient implements ITodoItemsClient {
     }
 
     updateTodoItemDetail(id: number, command: UpdateTodoItemDetailCommand): Observable<void> {
-        let url_ = this.baseUrl + "/api/TodoItems/UpdateDetail/{id}";
+        let url_ = this.baseUrl + "/api/todoitems/updatedetail/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -579,17 +579,17 @@ export class TodoItemsClient implements ITodoItemsClient {
     }
 }
 
-export interface IClient {
-    getConnectToken(): Observable<void>;
-    postConnectToken(): Observable<void>;
-    getConnectAuthorize(): Observable<void>;
-    postConnectAuthorize(): Observable<void>;
+export interface IConnectClient {
+    connectAuthorizeGET(): Observable<void>;
+    connectAuthorizePOST(): Observable<void>;
+    connectTokenGET(): Observable<void>;
+    connectTokenPOST(): Observable<void>;
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class Client implements IClient {
+export class ConnectClient implements IConnectClient {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -599,95 +599,7 @@ export class Client implements IClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getConnectToken(): Observable<void> {
-        let url_ = this.baseUrl + "/connect/token";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetConnectToken(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetConnectToken(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
-        }));
-    }
-
-    protected processGetConnectToken(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    postConnectToken(): Observable<void> {
-        let url_ = this.baseUrl + "/connect/token";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPostConnectToken(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processPostConnectToken(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
-        }));
-    }
-
-    protected processPostConnectToken(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    getConnectAuthorize(): Observable<void> {
+    connectAuthorizeGET(): Observable<void> {
         let url_ = this.baseUrl + "/connect/authorize";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -699,11 +611,11 @@ export class Client implements IClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetConnectAuthorize(response_);
+            return this.processConnectAuthorizeGET(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetConnectAuthorize(response_ as any);
+                    return this.processConnectAuthorizeGET(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<void>;
                 }
@@ -712,7 +624,7 @@ export class Client implements IClient {
         }));
     }
 
-    protected processGetConnectAuthorize(response: HttpResponseBase): Observable<void> {
+    protected processConnectAuthorizeGET(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -731,7 +643,7 @@ export class Client implements IClient {
         return _observableOf(null as any);
     }
 
-    postConnectAuthorize(): Observable<void> {
+    connectAuthorizePOST(): Observable<void> {
         let url_ = this.baseUrl + "/connect/authorize";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -743,11 +655,11 @@ export class Client implements IClient {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPostConnectAuthorize(response_);
+            return this.processConnectAuthorizePOST(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processPostConnectAuthorize(response_ as any);
+                    return this.processConnectAuthorizePOST(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<void>;
                 }
@@ -756,7 +668,95 @@ export class Client implements IClient {
         }));
     }
 
-    protected processPostConnectAuthorize(response: HttpResponseBase): Observable<void> {
+    protected processConnectAuthorizePOST(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    connectTokenGET(): Observable<void> {
+        let url_ = this.baseUrl + "/connect/token";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processConnectTokenGET(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processConnectTokenGET(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processConnectTokenGET(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    connectTokenPOST(): Observable<void> {
+        let url_ = this.baseUrl + "/connect/token";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processConnectTokenPOST(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processConnectTokenPOST(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processConnectTokenPOST(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :

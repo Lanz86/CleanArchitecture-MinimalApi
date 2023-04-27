@@ -8,7 +8,7 @@ public abstract class AbstractEndpoint : IEndpoint
 
     public string Group => GetType().Namespace!.Split(".")[^1];
 
-    public string BaseRoute => $"/api/{Group}/";
+    public virtual string BaseRoute => $"/api/{Group}/";
 
     public RouteHandlerBuilder MapGet(WebApplication app, Delegate handler) => MapGet(app, "", handler);
 
@@ -48,11 +48,19 @@ public abstract class AbstractEndpoint : IEndpoint
             .WithDefaults(this);
     }
 
+    public RouteHandlerBuilder MapMethods(WebApplication app, IEnumerable<string> httpMethods, Delegate handler) =>
+        MapMethods(app, string.Empty, httpMethods, handler);
+
+    public RouteHandlerBuilder MapMethods(WebApplication app, string pattern, IEnumerable<string> httpMethods, Delegate handler)
+    {
+        return app.MapMethods(BuildRoutePattern(pattern), httpMethods, handler);
+    }
+
     private string BuildRoutePattern(string pattern)
     {
         if (!pattern.StartsWith("/"))
         {
-            pattern = $"{BaseRoute}{pattern}";
+            pattern = $"{BaseRoute}{pattern}".ToLower();
         }
 
         return pattern;
