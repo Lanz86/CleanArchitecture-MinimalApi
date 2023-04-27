@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using TypeTest.WebApi.Application.Common.Models;
+using CleanArchitecture.Application.Common.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace TypeTest.WebApi.Application.Common.Mappings;
+namespace CleanArchitecture.Application.Common.Mappings;
 
 public static class MappingExtensions
 {

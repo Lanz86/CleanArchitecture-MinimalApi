@@ -1,6 +1,6 @@
-﻿using TypeTest.WebApi.Application.Common.Interfaces;
+﻿using CleanArchitecture.Application.Common.Interfaces;
 
-namespace TypeTest.WebApi.Infrastructure.Services;
+namespace CleanArchitecture.Infrastructure.Services;
 
 public class DateTimeService : IDateTime
 {

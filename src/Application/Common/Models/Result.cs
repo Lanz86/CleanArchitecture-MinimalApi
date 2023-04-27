@@ -1,4 +1,4 @@
-﻿namespace TypeTest.WebApi.Application.Common.Models;
+﻿namespace CleanArchitecture.Application.Common.Models;
 
 public class Result
 {

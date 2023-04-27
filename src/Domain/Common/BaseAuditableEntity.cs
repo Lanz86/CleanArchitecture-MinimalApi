@@ -1,4 +1,4 @@
-﻿namespace TypeTest.WebApi.Domain.Common;
+﻿namespace CleanArchitecture.Domain.Common;
 
 public interface IBaseAuditableEntry
 {

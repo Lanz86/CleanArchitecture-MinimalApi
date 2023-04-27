@@ -1,12 +1,12 @@
 ﻿using System.Security.Claims;
-using TypeTest.WebApi.Application.Common.Models;
+using CleanArchitecture.Application.Common.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 
-namespace TypeTest.WebApi.WebApi.Authorization;
+namespace CleanArchitecture.WebApi.Authorization;
 
 public class ConnectToken : AbstractEndpoint
 {

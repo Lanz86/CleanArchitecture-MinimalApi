@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace TypeTest.WebApi.WebApi.Infrastructure;
+namespace CleanArchitecture.WebApi.Infrastructure;
 
 public static class WebApplicationExtensions
 {

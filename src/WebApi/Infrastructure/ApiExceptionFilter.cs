@@ -1,7 +1,7 @@
-using TypeTest.WebApi.Application.Common.Exceptions;
+using CleanArchitecture.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TypeTest.WebApi.WebApi.Filters;
+namespace CleanArchitecture.WebApi.Filters;
 
 public class ApiExceptionFilter : IEndpointFilter
 {

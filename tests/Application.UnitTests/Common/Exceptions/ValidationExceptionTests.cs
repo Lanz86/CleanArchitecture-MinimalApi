@@ -1,9 +1,9 @@
-﻿using TypeTest.WebApi.Application.Common.Exceptions;
+﻿using CleanArchitecture.Application.Common.Exceptions;
 using FluentAssertions;
 using FluentValidation.Results;
 using NUnit.Framework;
 
-namespace TypeTest.WebApi.Application.UnitTests.Common.Exceptions;
+namespace CleanArchitecture.Application.UnitTests.Common.Exceptions;
 
 public class ValidationExceptionTests
 {

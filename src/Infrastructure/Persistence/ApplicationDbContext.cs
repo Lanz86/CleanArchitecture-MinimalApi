@@ -1,13 +1,14 @@
 ﻿using System.Reflection;
-using TypeTest.WebApi.Application.Common.Interfaces;
-using TypeTest.WebApi.Infrastructure.Identity;
-using TypeTest.WebApi.Infrastructure.Persistence.Interceptors;
+using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Domain.Entities;
+using CleanArchitecture.Infrastructure.Identity;
+using CleanArchitecture.Infrastructure.Persistence.Interceptors;
 using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace TypeTest.WebApi.Infrastructure.Persistence;
+namespace CleanArchitecture.Infrastructure.Persistence;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 {
@@ -23,6 +24,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
         _mediator = mediator;
         _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
     }
+
+    public DbSet<TodoList> TodoLists => Set<TodoList>();
+
+    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

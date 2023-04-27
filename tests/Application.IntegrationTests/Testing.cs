@@ -1,5 +1,5 @@
-﻿using TypeTest.WebApi.Infrastructure.Identity;
-using TypeTest.WebApi.Infrastructure.Persistence;
+﻿using CleanArchitecture.Infrastructure.Identity;
+using CleanArchitecture.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Respawn;
 
-namespace TypeTest.WebApi.Application.IntegrationTests;
+namespace CleanArchitecture.Application.IntegrationTests;
 
 [SetUpFixture]
 public partial class Testing

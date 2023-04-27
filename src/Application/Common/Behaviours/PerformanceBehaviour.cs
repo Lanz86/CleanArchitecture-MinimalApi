@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
-using TypeTest.WebApi.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace TypeTest.WebApi.Application.Common.Behaviours;
+namespace CleanArchitecture.Application.Common.Behaviours;
 
 public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {

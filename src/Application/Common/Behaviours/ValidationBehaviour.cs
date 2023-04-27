@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
-using ValidationException = TypeTest.WebApi.Application.Common.Exceptions.ValidationException;
+using ValidationException = CleanArchitecture.Application.Common.Exceptions.ValidationException;
 
-namespace TypeTest.WebApi.Application.Common.Behaviours;
+namespace CleanArchitecture.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : notnull

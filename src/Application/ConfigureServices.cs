@@ -1,6 +1,6 @@
 ﻿using System.Net.NetworkInformation;
 using System.Reflection;
-using TypeTest.WebApi.Application.Common.Behaviours;
+using CleanArchitecture.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
 

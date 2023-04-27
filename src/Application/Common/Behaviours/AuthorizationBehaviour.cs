@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using TypeTest.WebApi.Application.Common.Exceptions;
-using TypeTest.WebApi.Application.Common.Interfaces;
-using TypeTest.WebApi.Application.Common.Security;
+using CleanArchitecture.Application.Common.Exceptions;
+using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Security;
 using MediatR;
 
-namespace TypeTest.WebApi.Application.Common.Behaviours;
+namespace CleanArchitecture.Application.Common.Behaviours;
 
 public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {

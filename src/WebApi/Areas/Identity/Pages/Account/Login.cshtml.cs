@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using TypeTest.WebApi.Infrastructure.Identity;
+using CleanArchitecture.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace TypeTest.WebApi.WebApi.Areas.Identity.Pages.Account
+namespace CleanArchitecture.WebApi.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {

@@ -1,10 +1,10 @@
-﻿using TypeTest.WebApi.Application.Common.Interfaces;
-using TypeTest.WebApi.Application.Common.Models;
+﻿using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace TypeTest.WebApi.Infrastructure.Identity;
+namespace CleanArchitecture.Infrastructure.Identity;
 
 public class IdentityService : IIdentityService
 {

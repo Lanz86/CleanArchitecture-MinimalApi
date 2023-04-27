@@ -8,8 +8,8 @@
         <SpaProxyServerUrl>https://localhost:44447</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>TypeTest.WebApi.WebApi</RootNamespace>
-        <AssemblyName>TypeTest.WebApi.WebApi</AssemblyName>
+        <RootNamespace>CleanArchitecture.WebApi</RootNamespace>
+        <AssemblyName>CleanArchitecture.WebApi</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="TypeTest.WebApi.Application.IntegrationTests" />
+        <InternalsVisibleTo Include="CleanArchitecture.Application.IntegrationTests" />
     </ItemGroup>
 
     <ItemGroup>
@@ -37,6 +37,10 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers\" />
     </ItemGroup>
 
     <PropertyGroup>

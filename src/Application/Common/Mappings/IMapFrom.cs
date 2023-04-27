@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace TypeTest.WebApi.Application.Common.Mappings;
+namespace CleanArchitecture.Application.Common.Mappings;
 
 public interface IMapFrom<T>
 {

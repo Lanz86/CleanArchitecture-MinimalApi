@@ -1,10 +1,10 @@
-﻿using TypeTest.WebApi.Application.Common.Interfaces;
-using TypeTest.WebApi.Domain.Common;
+﻿using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace TypeTest.WebApi.Infrastructure.Persistence.Interceptors;
+namespace CleanArchitecture.Infrastructure.Persistence.Interceptors;
 
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {

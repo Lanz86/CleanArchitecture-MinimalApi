@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TypeTest.WebApi.Domain.Common;
+namespace CleanArchitecture.Domain.Common;
 
 public interface IBaseEntity
 {

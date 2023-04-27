@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace TypeTest.WebApi.Application.IntegrationTests;
+namespace CleanArchitecture.Application.IntegrationTests;
 
 using static Testing;
 

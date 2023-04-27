@@ -1,7 +1,7 @@
-﻿using TypeTest.WebApi.Application.Common.Interfaces;
-using TypeTest.WebApi.Infrastructure.Identity;
-using TypeTest.WebApi.Infrastructure.Persistence;
-using TypeTest.WebApi.WebApi.Services;
+﻿using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Infrastructure.Identity;
+using CleanArchitecture.Infrastructure.Persistence;
+using CleanArchitecture.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
 using OpenIddict.Validation.AspNetCore;
 
-namespace TypeTest.WebApi.WebApi;
+namespace CleanArchitecture.WebApi;
 
 public static class ConfigureServices
 {
