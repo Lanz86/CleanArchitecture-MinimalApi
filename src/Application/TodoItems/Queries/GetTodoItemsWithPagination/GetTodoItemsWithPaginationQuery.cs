@@ -3,34 +3,31 @@ using AutoMapper.QueryableExtensions;
 using CleanArchitecture.Application.Common.Interfaces;
 using CleanArchitecture.Application.Common.Mappings;
 using CleanArchitecture.Application.Common.Models;
+using CleanArchitecture.Application.Common.Requests;
+using CleanArchitecture.Domain.Entities;
 using MediatR;
 
 namespace CleanArchitecture.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 
-public record GetTodoItemsWithPaginationQuery : IRequest<PaginatedList<TodoItemBriefDto>>
+public record GetTodoItemsWithPaginationQuery : PaginatedRequest<TodoItemBriefDto>
 {
     public int ListId { get; init; }
-    public int PageNumber { get; init; } = 1;
-    public int PageSize { get; init; } = 10;
 }
 
-public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoItemsWithPaginationQuery, PaginatedList<TodoItemBriefDto>>
+public class GetTodoItemsWithPaginationQueryHandler : PaginatedRequestHandler<GetTodoItemsWithPaginationQuery, TodoItemBriefDto, TodoItem>
 {
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetTodoItemsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetTodoItemsWithPaginationQueryHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _context = context;
-        _mapper = mapper;
+
     }
 
-    public async Task<PaginatedList<TodoItemBriefDto>> Handle(GetTodoItemsWithPaginationQuery request, CancellationToken cancellationToken)
-    {
-        return await _context.TodoItems
-            .Where(x => x.ListId == request.ListId)
-            .OrderBy(x => x.Title)
-            .ProjectTo<TodoItemBriefDto>(_mapper.ConfigurationProvider)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
-    }
+
+    public override Func<GetTodoItemsWithPaginationQuery, IQueryable<TodoItem>> Query =>
+        request =>
+        {
+            return _context.TodoItems
+                .Where(x => x.ListId == request.ListId)
+                .OrderBy(x => x.Title);
+        };
 }
