@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Application.Common.Exceptions;
 using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Requests;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Enums;
 using MediatR;
@@ -17,29 +18,23 @@ public record UpdateTodoItemDetailCommand : IRequest
     public string? Note { get; init; }
 }
 
-public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItemDetailCommand>
+public class UpdateTodoItemDetailCommandHandler : UpdateCommandRequestHandler<UpdateTodoItemDetailCommand, TodoItem, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public UpdateTodoItemDetailCommandHandler(IApplicationDbContext context)
+    public UpdateTodoItemDetailCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _context = context;
     }
 
-    public async Task Handle(UpdateTodoItemDetailCommand request, CancellationToken cancellationToken)
-    {
-        var entity = await _context.TodoItems
-            .FindAsync(new object[] { request.Id }, cancellationToken);
-
-        if (entity == null)
+    protected override Func<UpdateTodoItemDetailCommand, CancellationToken, Task<TodoItem>> FindEntityToUpdateAsync =>
+        async (request, cancellationToken) =>
         {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
-        }
+            return await _context.TodoItems
+                .FindAsync(new object[] { request.Id }, cancellationToken);
+        };
 
+    protected override Action<UpdateTodoItemDetailCommand, TodoItem> MapRequestToEntity => (request, entity) =>
+    {
         entity.ListId = request.ListId;
         entity.Priority = request.Priority;
         entity.Note = request.Note;
-
-        await _context.SaveChangesAsync(cancellationToken);
-    }
+    };
 }

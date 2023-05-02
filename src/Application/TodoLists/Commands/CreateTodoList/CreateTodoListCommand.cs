@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Requests;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
 
@@ -9,25 +10,17 @@ public record CreateTodoListCommand : IRequest<int>
     public string? Title { get; init; }
 }
 
-public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListCommand, int>
+public class CreateTodoListCommandHandler : CreateCommandRequestHandler<CreateTodoListCommand, int, TodoList>
 {
-    private readonly IApplicationDbContext _context;
 
-    public CreateTodoListCommandHandler(IApplicationDbContext context)
+    public CreateTodoListCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _context = context;
     }
 
-    public async Task<int> Handle(CreateTodoListCommand request, CancellationToken cancellationToken)
+    protected override Func<CreateTodoListCommand, TodoList> MapRequestToEntity => (request) =>
     {
-        var entity = new TodoList();
+        var entity = new TodoList { Title = request.Title };
 
-        entity.Title = request.Title;
-
-        _context.TodoLists.Add(entity);
-
-        await _context.SaveChangesAsync(cancellationToken);
-
-        return entity.Id;
-    }
+        return entity;
+    };
 }

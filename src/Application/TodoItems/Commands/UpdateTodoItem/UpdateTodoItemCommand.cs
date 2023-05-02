@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Application.Common.Exceptions;
 using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Requests;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
 
@@ -14,28 +15,22 @@ public record UpdateTodoItemCommand : IRequest
     public bool Done { get; init; }
 }
 
-public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand>
+public class UpdateTodoItemCommandHandler : UpdateCommandRequestHandler<UpdateTodoItemCommand, TodoItem, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public UpdateTodoItemCommandHandler(IApplicationDbContext context)
+    public UpdateTodoItemCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _context = context;
     }
 
-    public async Task Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
-    {
-        var entity = await _context.TodoItems
-            .FindAsync(new object[] { request.Id }, cancellationToken);
-
-        if (entity == null)
+    protected override Func<UpdateTodoItemCommand, CancellationToken, Task<TodoItem>> FindEntityToUpdateAsync =>
+        async (request, cancellationToken) =>
         {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
-        }
+            return await _context.TodoItems
+                .FindAsync(new object[] { request.Id }, cancellationToken);
+        };
 
+    protected override Action<UpdateTodoItemCommand, TodoItem> MapRequestToEntity => (request, entity) =>
+    {
         entity.Title = request.Title;
         entity.Done = request.Done;
-
-        await _context.SaveChangesAsync(cancellationToken);
-    }
+    };
 }

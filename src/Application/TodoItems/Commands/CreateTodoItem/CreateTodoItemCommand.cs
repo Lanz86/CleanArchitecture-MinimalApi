@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Requests;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Events;
 using MediatR;
@@ -12,30 +13,19 @@ public record CreateTodoItemCommand : IRequest<int>
     public string? Title { get; init; }
 }
 
-public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, int>
+public class CreateTodoItemCommandHandler : CreateCommandRequestHandler<CreateTodoItemCommand, int, TodoItem>
 {
-    private readonly IApplicationDbContext _context;
-
-    public CreateTodoItemCommandHandler(IApplicationDbContext context)
+    public CreateTodoItemCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _context = context;
     }
 
-    public async Task<int> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
+    protected override Func<CreateTodoItemCommand, TodoItem> MapRequestToEntity => (request) =>
     {
-        var entity = new TodoItem
-        {
-            ListId = request.ListId,
-            Title = request.Title,
-            Done = false
-        };
-
+        var entity = new TodoItem { ListId = request.ListId, Title = request.Title, Done = false };
         entity.AddDomainEvent(new TodoItemCreatedEvent(entity));
 
-        _context.TodoItems.Add(entity);
+        return entity;
+    };
 
-        await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.Id;
-    }
 }

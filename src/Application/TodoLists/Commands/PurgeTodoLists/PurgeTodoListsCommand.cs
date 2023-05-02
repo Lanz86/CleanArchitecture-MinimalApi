@@ -1,5 +1,7 @@
 ﻿using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Requests;
 using CleanArchitecture.Application.Common.Security;
+using CleanArchitecture.Domain.Entities;
 using MediatR;
 
 namespace CleanArchitecture.Application.TodoLists.Commands.PurgeTodoLists;
@@ -8,19 +10,18 @@ namespace CleanArchitecture.Application.TodoLists.Commands.PurgeTodoLists;
 [Authorize(Policy = "CanPurge")]
 public record PurgeTodoListsCommand : IRequest;
 
-public class PurgeTodoListsCommandHandler : IRequestHandler<PurgeTodoListsCommand>
+public class PurgeTodoListsCommandHandler : CommandRequestWithoutResponseHandler<PurgeTodoListsCommand>
 {
-    private readonly IApplicationDbContext _context;
-
-    public PurgeTodoListsCommandHandler(IApplicationDbContext context)
+    public PurgeTodoListsCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _context = context;
     }
 
-    public async Task Handle(PurgeTodoListsCommand request, CancellationToken cancellationToken)
+    public override async Task Handle(PurgeTodoListsCommand request, CancellationToken cancellationToken)
     {
         _context.TodoLists.RemoveRange(_context.TodoLists);
 
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+
 }

@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Application.Common.Exceptions;
 using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Requests;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
 
@@ -12,27 +13,22 @@ public record UpdateTodoListCommand : IRequest
     public string? Title { get; init; }
 }
 
-public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListCommand>
+public class UpdateTodoListCommandHandler : UpdateCommandRequestHandler<UpdateTodoListCommand, TodoList, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public UpdateTodoListCommandHandler(IApplicationDbContext context)
+    public UpdateTodoListCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _context = context;
     }
 
-    public async Task Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
-    {
-        var entity = await _context.TodoLists
-            .FindAsync(new object[] { request.Id }, cancellationToken);
-
-        if (entity == null)
+    protected override Func<UpdateTodoListCommand, CancellationToken, Task<TodoList>> FindEntityToUpdateAsync =>
+        async (request, cancellationToken) =>
         {
-            throw new NotFoundException(nameof(TodoList), request.Id);
-        }
+            return await _context.TodoLists
+                .FindAsync(new object[] { request.Id }, cancellationToken);
+        };
 
+    protected override Action<UpdateTodoListCommand, TodoList> MapRequestToEntity => (request, entity) =>
+    {
         entity.Title = request.Title;
-
-        await _context.SaveChangesAsync(cancellationToken);
-    }
+    };
+    
 }

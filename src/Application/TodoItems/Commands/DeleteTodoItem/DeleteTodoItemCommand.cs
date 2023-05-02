@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Application.Common.Exceptions;
 using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Requests;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Events;
 using MediatR;
@@ -8,29 +9,18 @@ namespace CleanArchitecture.Application.TodoItems.Commands.DeleteTodoItem;
 
 public record DeleteTodoItemCommand(int Id) : IRequest;
 
-public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>
+public class DeleteTodoItemCommandHandler : DeleteCommandRequestHandler<DeleteTodoItemCommand, TodoItem, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public DeleteTodoItemCommandHandler(IApplicationDbContext context)
+    public DeleteTodoItemCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        _context = context;
     }
 
-    public async Task Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
-    {
-        var entity = await _context.TodoItems
-            .FindAsync(new object[] { request.Id }, cancellationToken);
-
-        if (entity == null)
+    protected override Func<DeleteTodoItemCommand, CancellationToken, Task<TodoItem>> FindEntityToUpdateAsync =>
+        async (request, cancellationToken) =>
         {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
-        }
+            return await _context.TodoItems
+                .FindAsync(new object[] { request.Id }, cancellationToken);
+        };
 
-        _context.TodoItems.Remove(entity);
 
-        entity.AddDomainEvent(new TodoItemDeletedEvent(entity));
-
-        await _context.SaveChangesAsync(cancellationToken);
-    }
 }
