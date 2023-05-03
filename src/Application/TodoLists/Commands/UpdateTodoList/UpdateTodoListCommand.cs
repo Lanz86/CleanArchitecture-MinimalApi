@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Application.Common.Exceptions;
 using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Application.Common.Requests;
+using CleanArchitecture.Application.Common.Requests.Handlers.Commands;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
 
@@ -19,16 +19,17 @@ public class UpdateTodoListCommandHandler : UpdateCommandRequestHandler<UpdateTo
     {
     }
 
-    protected override Func<UpdateTodoListCommand, CancellationToken, Task<TodoList>> FindEntityToUpdateAsync =>
-        async (request, cancellationToken) =>
-        {
-            return await _context.TodoLists
-                .FindAsync(new object[] { request.Id }, cancellationToken);
-        };
 
-    protected override Action<UpdateTodoListCommand, TodoList> MapRequestToEntity => (request, entity) =>
+    protected override async Task<TodoList?> FindEntityAsync(UpdateTodoListCommand request, CancellationToken cancellationToken = default)
+    {
+        return await _context.TodoLists
+            .FindAsync(new object[] { request.Id }, cancellationToken);
+    }
+
+    protected override Task MapRequestToEntityAsync(UpdateTodoListCommand request, TodoList entity)
     {
         entity.Title = request.Title;
-    };
-    
+
+        return Task.CompletedTask;
+    }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CleanArchitecture.Application.Common.Models;
 using MediatR;
 
-namespace CleanArchitecture.Application.Common.Requests;
+namespace CleanArchitecture.Application.Common.Requests.Queries;
 
 public abstract record PaginatedRequest<TResponse> : IRequest<PaginatedList<TResponse>>
 {

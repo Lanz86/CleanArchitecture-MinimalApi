@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Application.Common.Requests;
+using CleanArchitecture.Application.Common.Requests.Handlers.Commands;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Events;
 using MediatR;
@@ -18,14 +18,12 @@ public class CreateTodoItemCommandHandler : CreateCommandRequestHandler<CreateTo
     public CreateTodoItemCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {
     }
-
-    protected override Func<CreateTodoItemCommand, TodoItem> MapRequestToEntity => (request) =>
+    
+    protected override TodoItem MapRequestToEntity(CreateTodoItemCommand request)
     {
         var entity = new TodoItem { ListId = request.ListId, Title = request.Title, Done = false };
         entity.AddDomainEvent(new TodoItemCreatedEvent(entity));
 
         return entity;
-    };
-
-
+    }
 }

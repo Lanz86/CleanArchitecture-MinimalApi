@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Application.Common.Requests;
+using CleanArchitecture.Application.Common.Requests.Handlers.Commands;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
 
@@ -17,10 +17,8 @@ public class CreateTodoListCommandHandler : CreateCommandRequestHandler<CreateTo
     {
     }
 
-    protected override Func<CreateTodoListCommand, TodoList> MapRequestToEntity => (request) =>
+    protected override TodoList MapRequestToEntity(CreateTodoListCommand request)
     {
-        var entity = new TodoList { Title = request.Title };
-
-        return entity;
-    };
+        return new TodoList { Title = request.Title };
+    }
 }

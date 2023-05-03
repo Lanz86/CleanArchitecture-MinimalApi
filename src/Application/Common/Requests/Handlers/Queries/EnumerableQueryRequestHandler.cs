@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using CleanArchitecture.Application.Common.Mappings;
 using CleanArchitecture.Application.Common.Models;
 
-namespace CleanArchitecture.Application.Common.Requests;
+namespace CleanArchitecture.Application.Common.Requests.Handlers.Queries;
 public abstract class EnumerableQueryRequestHandler<TRequest, TResponse, TEntity> : QueryRequestHandler<TRequest, IEnumerable<TResponse>, TEntity> where TResponse : class where TEntity : class where TRequest : IRequest<IEnumerable<TResponse>>
 {
     protected EnumerableQueryRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
@@ -20,7 +20,7 @@ public abstract class EnumerableQueryRequestHandler<TRequest, TResponse, TEntity
     {
         try
         {
-            return await Query(request).AsNoTracking().ProjectToListAsync<TResponse>(_mapper.ConfigurationProvider);
+            return await DataQuery(request).AsNoTracking().ProjectToListAsync<TResponse>(_mapper.ConfigurationProvider);
         }
         catch (Exception ex)
         {

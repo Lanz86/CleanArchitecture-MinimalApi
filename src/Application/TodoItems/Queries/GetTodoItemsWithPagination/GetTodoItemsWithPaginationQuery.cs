@@ -3,7 +3,8 @@ using AutoMapper.QueryableExtensions;
 using CleanArchitecture.Application.Common.Interfaces;
 using CleanArchitecture.Application.Common.Mappings;
 using CleanArchitecture.Application.Common.Models;
-using CleanArchitecture.Application.Common.Requests;
+using CleanArchitecture.Application.Common.Requests.Handlers.Queries;
+using CleanArchitecture.Application.Common.Requests.Queries;
 using CleanArchitecture.Domain.Entities;
 using MediatR;
 
@@ -21,13 +22,12 @@ public class GetTodoItemsWithPaginationQueryHandler : PaginatedRequestHandler<Ge
     {
 
     }
+    
 
-
-    public override Func<GetTodoItemsWithPaginationQuery, IQueryable<TodoItem>> Query =>
-        request =>
-        {
-            return _context.TodoItems
-                .Where(x => x.ListId == request.ListId)
-                .OrderBy(x => x.Title);
-        };
+    public override IQueryable<TodoItem> DataQuery(GetTodoItemsWithPaginationQuery request)
+    {
+        return _context.TodoItems
+            .Where(x => x.ListId == request.ListId)
+            .OrderBy(x => x.Title);
+    }
 }

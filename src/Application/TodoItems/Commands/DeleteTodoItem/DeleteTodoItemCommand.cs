@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Application.Common.Exceptions;
 using CleanArchitecture.Application.Common.Interfaces;
-using CleanArchitecture.Application.Common.Requests;
+using CleanArchitecture.Application.Common.Requests.Handlers.Commands;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Events;
 using MediatR;
@@ -15,12 +15,9 @@ public class DeleteTodoItemCommandHandler : DeleteCommandRequestHandler<DeleteTo
     {
     }
 
-    protected override Func<DeleteTodoItemCommand, CancellationToken, Task<TodoItem>> FindEntityToUpdateAsync =>
-        async (request, cancellationToken) =>
-        {
-            return await _context.TodoItems
-                .FindAsync(new object[] { request.Id }, cancellationToken);
-        };
-
-
+    protected override async Task<TodoItem?> FindEntityAsync(DeleteTodoItemCommand request, CancellationToken cancellationToken = default)
+    {
+        return await _context.TodoItems
+            .FindAsync(new object[] { request.Id }, cancellationToken);
+    }
 }

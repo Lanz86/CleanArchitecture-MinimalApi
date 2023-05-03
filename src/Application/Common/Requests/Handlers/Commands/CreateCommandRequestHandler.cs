@@ -4,15 +4,15 @@ using Microsoft.Extensions.Logging;
 using CleanArchitecture.Application.Common.Interfaces;
 using CleanArchitecture.Domain.Common;
 
-namespace CleanArchitecture.Application.Common.Requests;
+namespace CleanArchitecture.Application.Common.Requests.Handlers.Commands;
 
 public abstract class CreateCommandRequestHandler<TRequest, TResponse, TEntity> : CommandRequestHandler<TRequest, TResponse> where TResponse : struct where TEntity : BaseEntity<TResponse> where TRequest : IRequest<TResponse>
 {
     protected CreateCommandRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
-    { 
+    {
     }
 
-    protected abstract Func<TRequest, TEntity> MapRequestToEntity { get; }
+    protected abstract TEntity MapRequestToEntity(TRequest request);
 
     public async override Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
     {

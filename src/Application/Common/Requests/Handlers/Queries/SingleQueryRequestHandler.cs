@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using CleanArchitecture.Application.Common.Models;
 
-namespace CleanArchitecture.Application.Common.Requests;
+namespace CleanArchitecture.Application.Common.Requests.Handlers.Queries;
 public abstract class SingleQueryRequestHandler<TRequest, TResponse, TEntity> : QueryRequestHandler<TRequest, TResponse, TEntity> where TResponse : class where TEntity : class where TRequest : IRequest<TResponse>
 {
     protected SingleQueryRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
@@ -20,7 +20,7 @@ public abstract class SingleQueryRequestHandler<TRequest, TResponse, TEntity> : 
     {
         try
         {
-            return await Query(request).AsNoTracking().ProjectTo<TResponse>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
+            return await DataQuery(request).AsNoTracking().ProjectTo<TResponse>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
         }
         catch (Exception ex)
         {
